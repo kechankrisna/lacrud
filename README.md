@@ -8,6 +8,7 @@ This is a laravel project that can help you to speed up coding in production whi
 > php artisan make:crud ModelName {--web}(Optional) {--api}(Optional)
 ```
 Example: php artisan make:crud Student --web --api
+![Image of Yaktocat](https://github.com/kechankrisna/lacrud/branch/master/screens/screenshot1.png)
 ```
 
 > php artisan remove:crud ModelName

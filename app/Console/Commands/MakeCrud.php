@@ -64,7 +64,7 @@ use App\\Http\\Resources\\$name"."Resource;
             $oldControllerIndex = '       //';
             $newControllerIndex = '       $'.str_plural($this->argument('name')).' = '.$name.'::orderBy(\'created_at\', \'desc\')->get();
             return '.$name.'Resource::collection($'.str_plural($this->argument('name')).');';
-            $controllerContent = str_replace($oldControllerIndex, \substr_count($controllerContent, $oldControllerIndex), $controllerContent);
+            // $controllerContent = str_replace($oldControllerIndex, \substr_count($controllerContent, $oldControllerIndex), $controllerContent);
 
             file_put_contents($controller, $controllerContent);
 
