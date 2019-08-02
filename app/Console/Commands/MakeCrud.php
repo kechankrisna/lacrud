@@ -38,6 +38,8 @@ class MakeCrud extends Command
      */
     public function handle()
     {
+        echo "Processing ...";
+
         if($this->argument('name')):
             
             $name =ucfirst($this->argument('name'));
@@ -45,6 +47,28 @@ class MakeCrud extends Command
             Artisan::call("make:request $name". "Request");
             Artisan::call("make:resource $name". "Resource");
 
+            $controller = app_path() . '\\Http\\Controllers\\' . $name.'Controller'. '.php';
+            $apicontroller = app_path() . '\\Http\\Controllers\\API\\' . $name.'Controller'. '.php';
+
+            //add extra request and respone to controller
+            $controllerContent = \file_get_contents($controller);
+            $oldControllerUse = 'use Illuminate\Http\Request;';
+            $newControllerUse = "
+use Illuminate\Http\Request;
+use App\\Http\\Requests\\$name"."Request;
+use App\\Http\\Resources\\$name"."Resource;
+            ";
+            $controllerContent = \str_replace($oldControllerUse, $newControllerUse, $controllerContent);
+
+            //content crud method
+            $oldControllerIndex = '       //';
+            $newControllerIndex = '       $'.str_plural($this->argument('name')).' = '.$name.'::orderBy(\'created_at\', \'desc\')->get();
+            return '.$name.'Resource::collection($'.str_plural($this->argument('name')).');';
+            $controllerContent = str_replace($oldControllerIndex, \substr_count($controllerContent, $oldControllerIndex), $controllerContent);
+
+            file_put_contents($controller, $controllerContent);
+
+            //add routes to web.php
             if( $this->option('web') ){
                 $web = base_path('').'/routes/web.php';
                 $webcontent = file_get_contents($web);
@@ -62,6 +86,7 @@ Route::group(['prefix' => '".strtolower(str_plural($name))."'], function () {
                 file_put_contents($web, $webcontent, LOCK_EX);
             }
 
+            //add routes to api.php
             if( $this->option('api') ){
                 Artisan::call("make:controller API/".$name."Controller --api");
                 
@@ -80,5 +105,7 @@ Route::group(['prefix' => '".strtolower(str_plural($name))."'], function () {
             }
 
         endif;
+
+        echo "\nCompleted!";
     }
 }
