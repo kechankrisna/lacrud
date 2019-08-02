@@ -7,7 +7,6 @@ This is a laravel project that can help you to speed up coding in production whi
 **LET ROCK**
 
 > - git clone https://github.com/kechankrisna/lacrud.git
-
 > - cd lacrud
 > - composer install
 > - php artisan serve
