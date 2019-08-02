@@ -6,11 +6,12 @@ This is a laravel project that can help you to speed up coding in production whi
 
 **LET ROCK**
 
-> git clone https://github.com/kechankrisna/lacrud.git
-> cd lacrud
-> composer install
-> php artisan serve
-> Your server will start at http://127.0.0.1:8000
+> - git clone https://github.com/kechankrisna/lacrud.git
+
+> - cd lacrud
+> - composer install
+> - php artisan serve
+> - Your server will start at http://127.0.0.1:8000
 
 *Usage and Feature*
 
